@@ -59,7 +59,19 @@ O = {
     },
     -- @usage pass a table with installed languages
     treesitter = {
-        ensure_installed = {"typescript", "javascript", "lua", "html", "css", "php", "yaml"},
+        ensure_installed = {
+            "typescript",
+            "javascript",
+            "lua",
+            "html",
+            "css",
+            "php",
+            "yaml",
+            "json",
+            "graphql",
+            "jsonc",
+            "jsdoc"
+        },
         ignore_install = {},
         -- The below are for treesitter-textobjects plugin
         highlight = {enabled = true},
