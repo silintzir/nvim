@@ -31,6 +31,4 @@ if not require("lv-utils").check_lsp_client_active "sumneko_lua" then
         }
     }
 end
-
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+vim.cmd("setlocal shiftwidth=4 tabstop=4")

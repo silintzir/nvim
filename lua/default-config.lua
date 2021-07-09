@@ -119,5 +119,5 @@ O = {
         },
         yaml = {}
     },
-    user_autocommands = {{"FileType", "qf", "set nobuflisted"}}
+    user_autocommands = {}
 }
