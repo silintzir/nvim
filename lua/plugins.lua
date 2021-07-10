@@ -31,7 +31,13 @@ return require("packer").startup(
 
         -- NOTE: refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
         use {"neovim/nvim-lspconfig"}
-        use {"kabouzeid/nvim-lspinstall", event = "VimEnter"}
+        use {
+            "kabouzeid/nvim-lspinstall",
+            event = "VimEnter",
+            config = function()
+                require("lspinstall").setup()
+            end
+        }
 
         -- Telescope
         use {"nvim-lua/popup.nvim"}

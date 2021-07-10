@@ -73,7 +73,7 @@ vim.lsp.protocol.CompletionItemKind = {
     "   (TypeParameter)"
 }
 
-local function documentHighlight(client, bufnr)
+local function documentHighlight(client)
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_exec(
@@ -111,7 +111,10 @@ function lsp_config.common_on_attach(client, bufnr)
     buf_set_keymap("n", "<C-p>", ":lua vim.lsp.diagnostic.goto_prev:<CR>", opts)
     buf_set_keymap("n", "<C-n>", ":lua vim.lsp.diagnostic.goto_next:<CR>", opts)
     vim.cmd('command! -nargs=0 LspVirtualTextToggle lua require("lsp/virtual_text").toggle()')
-    documentHighlight(client, bufnr)
+
+    if O.lsp.document_highlight then
+        documentHighlight(client, bufnr)
+    end
 end
 
 -- use q to close the lspinfo popup
