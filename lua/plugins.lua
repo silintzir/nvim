@@ -271,6 +271,14 @@ return require("packer").startup(
             end
         }
 
+        use {
+            "ray-x/lsp_signature.nvim",
+            event = "InsertEnter",
+            config = function()
+                require("lsp_signature").on_attach()
+            end
+        }
+
         -- Javascript / Typescript
         use {
             "jose-elias-alvarez/nvim-lsp-ts-utils",

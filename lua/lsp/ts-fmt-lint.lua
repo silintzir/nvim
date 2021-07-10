@@ -3,8 +3,6 @@
 local M = {}
 
 M.setup = function()
-    local tsserver_args = {}
-
     local prettier = {
         formatCommand = "prettier --stdin-filepath ${INPUT}",
         formatStdin = true
@@ -18,10 +16,9 @@ M.setup = function()
     end
 
     require "lspconfig".efm.setup {
-        -- init_options = {initializationOptions},
         cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
         init_options = {documentFormatting = true, codeAction = false},
-        filetypes = {"html", "css", "yaml", "vue", "javascript", "javascriptreact", "typescript", "typescriptreact"},
+        filetypes = {"html", "css", "yaml", "javascript", "javascriptreact", "typescript", "typescriptreact"},
         settings = {
             rootMarkers = {".git/", "package.json"},
             languages = {

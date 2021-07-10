@@ -14,41 +14,33 @@ if O.transparent_window then
 end
 
 -- SETTINGS
-opt.backup = false
-opt.clipboard = O.clipboard
-opt.cmdheight = O.cmdheight -- More space for displaying messages
-opt.colorcolumn = O.colorcolumn
-opt.completeopt = {"menuone,noselect"}
-opt.conceallevel = 0 -- So that I can see `` in markdown files
-opt.cursorline = O.cursorline
-opt.expandtab = true
-opt.fileencoding = "utf-8" -- The encoding written to file
-opt.hidden = O.hidden_files -- Required to keep multiple buffers open multiple buffers
-opt.hlsearch = O.hl_search
-opt.ignorecase = O.ignore_case
-opt.mouse = "a"
-opt.number = O.number -- set numbered lines
-opt.numberwidth = O.numberwidth
-opt.pumheight = 10 -- Makes popup menu smalle
-opt.relativenumber = true -- set relative number
-opt.scrolloff = O.scrolloff -- minimum number of files to keep above and below the cursor
-opt.shiftwidth = 2
 opt.shortmess:append("c") -- Don't pass messages to |ins-completion-menu|.
-opt.showmode = true -- We don't need to see things like -- INSERT -- anymore
-opt.showtabline = 2 -- Always show tabs
-opt.signcolumn = "yes"
-opt.smartcase = O.smart_case
-opt.smartindent = true -- make indent smarter
-opt.splitbelow = true -- Horizontal splits will automatically be below
-opt.splitright = true -- Vertical splits will automatically be to the right
-opt.swapfile = false -- Do not write any swp files
-opt.tabstop = 2
-opt.termguicolors = true -- set term gui colors most terminals support this
-opt.timeoutlen = O.timeoutlen -- By default timeoutlen is 1000 ms
-opt.title = true
-opt.titlestring = "%<%F%=%l/%L - nvim"
-opt.undodir = CACHE_PATH .. "/undo" -- Set undo directory
-opt.undofile = true -- Enable persistent undo
-opt.updatetime = 300 -- Faster completion
-opt.wrap = O.wrap -- Display long lines as just one line
-opt.writebackup = false -- This is recommended by coc
+
+local disabled_built_ins = {
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin", -- 'man',
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin"
+    -- 'matchit', 'matchparen', 'shada_plugin',
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+    vim.g["loaded_" .. plugin] = 1
+end
+
+for k, v in pairs(O.default_options) do
+    vim.opt[k] = v
+end
