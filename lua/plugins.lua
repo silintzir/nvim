@@ -29,7 +29,7 @@ return require("packer").startup(
         -- Packer can manage itself as an optional plugin
         use "wbthomason/packer.nvim"
 
-        -- TODO refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
+        -- NOTE: refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
         use {"neovim/nvim-lspconfig"}
         use {"kabouzeid/nvim-lspinstall", event = "VimEnter"}
 
@@ -113,7 +113,10 @@ return require("packer").startup(
         }
 
         -- Color
-        use {"christianchiarulli/nvcode-color-schemes.vim", opt = true}
+        -- use {"christianchiarulli/nvcode-color-schemes.vim", opt = true}
+
+        -- tokyonight
+        use {"folke/tokyonight.nvim"}
 
         -- Icons
         use {"kyazdani42/nvim-web-devicons"}
@@ -121,6 +124,7 @@ return require("packer").startup(
         -- Status Line
         use {
             "glepnir/galaxyline.nvim",
+            event = "BufWinEnter",
             config = function()
                 require "lv-galaxyline"
             end
@@ -205,7 +209,7 @@ return require("packer").startup(
         -- Floating terminal
         use {
             "numToStr/FTerm.nvim",
-            event = "BufRead",
+            event = "BufWinEnter",
             config = function()
                 require("lv-floatterm").config()
             end,
@@ -263,7 +267,7 @@ return require("packer").startup(
             "folke/todo-comments.nvim",
             after = {"nvim-compe"},
             config = function()
-                require("todo-comments").setup {}
+                require("lv-todocomments").config {}
             end
         }
 

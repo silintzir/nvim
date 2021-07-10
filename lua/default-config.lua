@@ -4,10 +4,6 @@ CACHE_PATH = vim.fn.stdpath("cache")
 TERMINAL = vim.fn.expand "$TERMINAL"
 USER = vim.fn.expand "$USER"
 
-function Foo()
-    print("Panayiotis")
-end
-
 O = {
     format_on_save = false,
     auto_close_tree = 0,
@@ -36,6 +32,7 @@ O = {
     leader_key = " ",
     vsnip_dir = CONFIG_PATH .. "/snippets",
     plugin = {
+        lush = {active = false},
         colorizer = {active = false},
         zen = {active = false},
         ts_playground = {active = false},
@@ -130,6 +127,5 @@ O = {
             diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
         },
         yaml = {}
-    },
-    user_autocommands = {}
+    }
 }

@@ -1,7 +1,6 @@
 local lv_utils = {}
 
 function lv_utils.reload_lv_config()
-    print("Panayotis")
     vim.cmd "source ~/.config/nvim/lv-config.lua"
     vim.cmd "source ~/.config/nvim/lua/plugins.lua"
     vim.cmd "source ~/.config/nvim/lua/lv-neoformat/init.lua"
@@ -56,7 +55,6 @@ endfunction
 -- TODO find a new home for these autocommands
 lv_utils.define_augroups(
     {
-        _user_autocommands = O.user_autocommands,
         _general_settings = {
             {"TextYankPost", "*", "lua require('vim.highlight').on_yank({higroup = 'Search', timeout = 200})"},
             {"BufWinEnter", "*", "setlocal formatoptions-=c formatoptions-=r formatoptions-=o"},
@@ -66,10 +64,6 @@ lv_utils.define_augroups(
             -- {"VimLeavePre", "*", "set title set titleold="},
             {"FileType", "qf", "set nobuflisted"}
         },
-        -- _cursorline = {
-        --     {'VimEnter', '*', 'setlocal cursorline cmdheight=2'}, {'WinEnter', '*', 'setlocal cursorline cmdheight=2'},
-        --     {'BufWinEnter', '*', 'setlocal cursorline cmdheight=2'}, {'WinLeave', '*', 'setlocal nocursorline'}
-        -- },
         _markdown = {{"FileType", "markdown", "setlocal wrap"}, {"FileType", "markdown", "setlocal spell"}},
         _buffer_bindings = {{"FileType", "floaterm", "nnoremap <silent> <buffer> q :q<CR>"}},
         _auto_resize = {

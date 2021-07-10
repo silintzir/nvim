@@ -275,17 +275,6 @@ table.insert(
 table.insert(
     gls.short_line_left,
     {
-        FileIcon = {
-            provider = "FileIcon",
-            condition = condition.buffer_not_empty,
-            highlight = {colors.grey, colors.bg}
-        }
-    }
-)
-
-table.insert(
-    gls.short_line_left,
-    {
         SFileName = {
             provider = "SFileName",
             condition = condition.buffer_not_empty,
