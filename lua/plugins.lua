@@ -4,307 +4,313 @@ local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
-    execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-    execute "packadd packer.nvim"
+	execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+	execute("packadd packer.nvim")
 end
 
 local packer_ok, packer = pcall(require, "packer")
 if not packer_ok then
-    return
+	return
 end
 
-packer.init {
-    git = {clone_timeout = 300},
-    display = {
-        open_fn = function()
-            return require("packer.util").float {border = "single"}
-        end
-    }
-}
+packer.init({
+	git = { clone_timeout = 300 },
+	display = {
+		open_fn = function()
+			return require("packer.util").float({ border = "single" })
+		end,
+	},
+})
 
-vim.cmd "autocmd BufWritePost plugins.lua PackerCompile" -- Auto compile when there are changes in plugins.lua
+vim.cmd("autocmd BufWritePost plugins.lua PackerCompile") -- Auto compile when there are changes in plugins.lua
 
-return require("packer").startup(
-    function(use)
-        -- Packer can manage itself as an optional plugin
-        use "wbthomason/packer.nvim"
+return require("packer").startup(function(use)
+	-- Packer can manage itself as an optional plugin
+	use("wbthomason/packer.nvim")
 
-        -- NOTE: refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
-        use {"neovim/nvim-lspconfig"}
-        use {
-            "kabouzeid/nvim-lspinstall",
-            event = "VimEnter",
-            config = function()
-                require("lspinstall").setup()
-            end
-        }
+	-- NOTE: refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
+	use({ "neovim/nvim-lspconfig" })
+	use({
+		"kabouzeid/nvim-lspinstall",
+		event = "VimEnter",
+		config = function()
+			require("lspinstall").setup()
+		end,
+	})
 
-        -- Telescope
-        use {"nvim-lua/popup.nvim"}
-        use {"nvim-lua/plenary.nvim"}
-        use {"tjdevries/astronauta.nvim"}
-        use {"nvim-telescope/telescope.nvim", config = [[require('lv-telescope')]]}
+	-- Telescope
+	use({ "nvim-lua/popup.nvim" })
+	use({ "nvim-lua/plenary.nvim" })
+	use({ "tjdevries/astronauta.nvim" })
+	use({ "nvim-telescope/telescope.nvim", config = [[require('lv-telescope')]] })
 
-        -- Autocomplete
-        use {
-            "hrsh7th/nvim-compe",
-            event = "InsertEnter",
-            config = function()
-                require("lv-compe").config()
-            end
-        }
+	-- Autocomplete
+	use({
+		"hrsh7th/nvim-compe",
+		event = "InsertEnter",
+		config = function()
+			require("lv-compe").config()
+		end,
+	})
 
-        use {"hrsh7th/vim-vsnip", event = "InsertEnter"}
-        use {"rafamadriz/friendly-snippets", event = "InsertEnter"}
+	use({ "hrsh7th/vim-vsnip", event = "InsertEnter" })
+	use({ "rafamadriz/friendly-snippets", event = "InsertEnter" })
 
-        -- Treesitter
-        use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+	-- Treesitter
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 
-        -- neoformat
-        use {
-            "sbdchd/neoformat",
-            config = function()
-                require "lv-neoformat"
-            end,
-            event = "BufRead"
-        }
+	-- Formatter.nvim
+	use({
+		"mhartington/formatter.nvim",
+		config = function()
+			require("lv-formatter")
+		end,
+		event = "BufRead",
+	})
 
-        -- nvim-tree
-        use {
-            "kyazdani42/nvim-tree.lua",
-            config = function()
-                require("lv-nvimtree").config()
-            end
-        }
+	-- nvim-tree
+	use({
+		"kyazdani42/nvim-tree.lua",
+		config = function()
+			require("lv-nvimtree").config()
+		end,
+	})
 
-        -- gitsigns
-        use {
-            "lewis6991/gitsigns.nvim",
-            config = function()
-                require("lv-gitsigns").config()
-            end,
-            event = "BufRead"
-        }
+	-- gitsigns
+	use({
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("lv-gitsigns").config()
+		end,
+		event = "BufRead",
+	})
 
-        -- whichkey
-        use {
-            "folke/which-key.nvim",
-            config = function()
-                require "lv-which-key"
-            end,
-            event = "BufWinEnter"
-        }
+	-- whichkey
+	use({
+		"folke/which-key.nvim",
+		config = function()
+			require("lv-which-key")
+		end,
+		event = "BufWinEnter",
+	})
 
-        -- Autopairs
-        use {
-            "windwp/nvim-autopairs",
-            event = "InsertEnter",
-            after = {"telescope.nvim"},
-            config = function()
-                require "lv-autopairs"
-            end
-        }
+	-- Autopairs
+	use({
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		after = { "telescope.nvim" },
+		config = function()
+			require("lv-autopairs")
+		end,
+	})
 
-        -- Comments
-        use {
-            "terrortylor/nvim-comment",
-            event = "BufWinEnter",
-            config = function()
-                local status_ok, nvim_comment = pcall(require, "nvim_comment")
-                if not status_ok then
-                    return
-                end
-                nvim_comment.setup()
-            end
-        }
+	-- Comments
+	use({
+		"terrortylor/nvim-comment",
+		event = "BufWinEnter",
+		config = function()
+			local status_ok, nvim_comment = pcall(require, "nvim_comment")
+			if not status_ok then
+				return
+			end
+			nvim_comment.setup()
+		end,
+	})
 
-        -- Color
-        -- use {"christianchiarulli/nvcode-color-schemes.vim", opt = true}
+	-- vim-rooter
+	use({
+		"airblade/vim-rooter",
+		config = function()
+			vim.g.rooter_silent_chdir = 1
+		end,
+	})
 
-        -- tokyonight
-        use {"folke/tokyonight.nvim"}
+	-- Color
+	-- use {"christianchiarulli/nvcode-color-schemes.vim", opt = true}
 
-        -- Icons
-        use {"kyazdani42/nvim-web-devicons"}
+	-- tokyonight
+	use({ "folke/tokyonight.nvim" })
 
-        -- Status Line
-        use {
-            "glepnir/galaxyline.nvim",
-            event = "BufWinEnter",
-            config = function()
-                require "lv-galaxyline"
-            end
-        }
+	-- Icons
+	use({ "kyazdani42/nvim-web-devicons" })
 
-        -- barbar
-        use {
-            "romgrk/barbar.nvim",
-            config = function()
-                require("lv-barbar").config()
-            end,
-            event = "BufWinEnter"
-        }
+	-- Status Line
+	use({
+		"glepnir/galaxyline.nvim",
+		event = "BufWinEnter",
+		config = function()
+			require("lv-galaxyline")
+		end,
+	})
 
-        -- startup time
-        use {"tweekmonster/startuptime.vim"}
+	-- barbar
+	use({
+		"romgrk/barbar.nvim",
+		config = function()
+			require("lv-barbar").config()
+		end,
+		event = "BufWinEnter",
+	})
 
-        -- Builtins, these do not load by default
+	-- startup time
+	use({ "tweekmonster/startuptime.vim" })
 
-        -- Zen Mode
-        use {
-            "folke/zen-mode.nvim",
-            cmd = "ZenMode",
-            -- event = "BufRead",
-            config = function()
-                require("lv-zen").config()
-            end,
-            disable = not O.plugin.zen.active
-        }
+	-- Builtins, these do not load by default
 
-        -- Colorizer
-        use {
-            "norcalli/nvim-colorizer.lua",
-            event = "BufRead",
-            config = function()
-                require("lv-colorizer")
-            end,
-            disable = not O.plugin.colorizer.active
-        }
+	-- Zen Mode
+	use({
+		"folke/zen-mode.nvim",
+		cmd = "ZenMode",
+		-- event = "BufRead",
+		config = function()
+			require("lv-zen").config()
+		end,
+		disable = not O.plugin.zen.active,
+	})
 
-        -- treesitter playground
-        use {
-            event = "BufRead",
-            "nvim-treesitter/playground",
-            disable = not O.plugin.ts_playground.active
-        }
+	-- Colorizer
+	use({
+		"norcalli/nvim-colorizer.lua",
+		event = "BufRead",
+		config = function()
+			require("lv-colorizer")
+		end,
+		disable = not O.plugin.colorizer.active,
+	})
 
-        -- indent blankline
-        use {
-            "lukas-reineke/indent-blankline.nvim",
-            event = "BufRead",
-            setup = function()
-                vim.g.indentLine_enabled = 1
-                vim.g.indent_blankline_char = "▏"
+	-- treesitter playground
+	use({
+		event = "BufRead",
+		"nvim-treesitter/playground",
+		disable = not O.plugin.ts_playground.active,
+	})
 
-                vim.g.indent_blankline_filetype_exclude = {"help", "terminal", "dashboard"}
-                vim.g.indent_blankline_buftype_exclude = {"terminal"}
+	-- indent blankline
+	use({
+		"lukas-reineke/indent-blankline.nvim",
+		event = "BufRead",
+		setup = function()
+			vim.g.indentLine_enabled = 1
+			vim.g.indent_blankline_char = "▏"
 
-                vim.g.indent_blankline_show_trailing_blankline_indent = false
-                vim.g.indent_blankline_show_first_indent_level = true
-            end,
-            disable = not O.plugin.indent_line.active
-        }
+			vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
+			vim.g.indent_blankline_buftype_exclude = { "terminal" }
 
-        -- comments in context
-        use {
-            "JoosepAlviste/nvim-ts-context-commentstring",
-            event = "BufRead",
-            disable = not O.plugin.ts_context_commentstring.active
-        }
+			vim.g.indent_blankline_show_trailing_blankline_indent = false
+			vim.g.indent_blankline_show_first_indent_level = true
+		end,
+		disable = not O.plugin.indent_line.active,
+	})
 
-        -- Symbol Outline
-        use {
-            "simrat39/symbols-outline.nvim",
-            cmd = "SymbolsOutline",
-            disable = not O.plugin.symbol_outline.active
-        }
+	-- comments in context
+	use({
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		event = "BufRead",
+		disable = not O.plugin.ts_context_commentstring.active,
+	})
 
-        -- diagnostics
-        use {"folke/trouble.nvim", cmd = "TroubleToggle", disable = not O.plugin.trouble.active}
+	-- Symbol Outline
+	use({
+		"simrat39/symbols-outline.nvim",
+		cmd = "SymbolsOutline",
+		disable = not O.plugin.symbol_outline.active,
+	})
 
-        -- Floating terminal
-        use {
-            "numToStr/FTerm.nvim",
-            event = "BufWinEnter",
-            config = function()
-                require("lv-floatterm").config()
-            end,
-            disable = not O.plugin.floatterm.active
-        }
+	-- diagnostics
+	use({ "folke/trouble.nvim", cmd = "TroubleToggle", disable = not O.plugin.trouble.active })
 
-        -- telescope fzy sorter
-        use {
-            "nvim-telescope/telescope-fzy-native.nvim",
-            event = "BufRead",
-            disable = not O.plugin.telescope_fzy.active
-        }
+	-- Floating terminal
+	use({
+		"numToStr/FTerm.nvim",
+		event = "BufWinEnter",
+		config = function()
+			require("lv-floatterm").config()
+		end,
+		disable = not O.plugin.floatterm.active,
+	})
 
-        -- Use project for telescope
-        use {
-            "nvim-telescope/telescope-project.nvim",
-            event = "BufRead",
-            setup = function()
-                vim.cmd [[packadd telescope.nvim]]
-            end,
-            disable = not O.plugin.telescope_project.active
-        }
+	-- telescope fzy sorter
+	use({
+		"nvim-telescope/telescope-fzy-native.nvim",
+		event = "BufRead",
+		disable = not O.plugin.telescope_fzy.active,
+	})
 
-        -- Diffview
-        use {"sindrets/diffview.nvim", event = "BufRead", disable = not O.plugin.diffview.active}
+	-- Use project for telescope
+	use({
+		"nvim-telescope/telescope-project.nvim",
+		event = "BufRead",
+		setup = function()
+			vim.cmd([[packadd telescope.nvim]])
+		end,
+		disable = not O.plugin.telescope_project.active,
+	})
 
-        -- Better motions
-        use {
-            "phaazon/hop.nvim",
-            event = "BufRead",
-            config = function()
-                require("lv-hop").config()
-            end,
-            disable = not O.plugin.hop.active
-        }
+	-- Diffview
+	use({ "sindrets/diffview.nvim", event = "BufRead", disable = not O.plugin.diffview.active })
 
-        -- Better quickfix
-        use {"kevinhwang91/nvim-bqf", event = "BufRead", disable = not O.plugin.bqf.active}
+	-- Better motions
+	use({
+		"phaazon/hop.nvim",
+		event = "BufRead",
+		config = function()
+			require("lv-hop").config()
+		end,
+		disable = not O.plugin.hop.active,
+	})
 
-        -- Search & Replace
-        use {
-            "windwp/nvim-spectre",
-            event = "BufRead",
-            config = function()
-                require("lv-spectre").config()
-            end,
-            disable = not O.plugin.spectre.active
-        }
+	-- Better quickfix
+	use({ "kevinhwang91/nvim-bqf", event = "BufRead", disable = not O.plugin.bqf.active })
 
-        -- Lazygit
-        use {"kdheepak/lazygit.nvim", cmd = "LazyGit", disable = not O.plugin.lazygit.active}
+	-- Search & Replace
+	use({
+		"windwp/nvim-spectre",
+		event = "BufRead",
+		config = function()
+			require("lv-spectre").config()
+		end,
+		disable = not O.plugin.spectre.active,
+	})
 
-        -- todo-comments
-        use {
-            "folke/todo-comments.nvim",
-            after = {"nvim-compe"},
-            config = function()
-                require("lv-todocomments").config {}
-            end
-        }
+	-- Lazygit
+	use({ "kdheepak/lazygit.nvim", cmd = "LazyGit", disable = not O.plugin.lazygit.active })
 
-        use {
-            "ray-x/lsp_signature.nvim",
-            event = "InsertEnter",
-            config = function()
-                require("lsp_signature").on_attach()
-            end
-        }
+	-- todo-comments
+	use({
+		"folke/todo-comments.nvim",
+		after = { "nvim-compe" },
+		config = function()
+			require("lv-todocomments").config({})
+		end,
+	})
 
-        -- Javascript / Typescript
-        use {
-            "jose-elias-alvarez/nvim-lsp-ts-utils",
-            after = {"nvim-compe"},
-            ft = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx"}
-        }
+	use({
+		"ray-x/lsp_signature.nvim",
+		event = "InsertEnter",
+		config = function()
+			require("lsp_signature").on_attach()
+		end,
+	})
 
-        -- Pretty parentheses
-        use {"p00f/nvim-ts-rainbow", disable = not O.plugin.ts_rainbow.active}
+	-- Javascript / Typescript
+	use({
+		"jose-elias-alvarez/nvim-lsp-ts-utils",
+		after = { "nvim-compe" },
+		ft = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+	})
 
-        -- Autotags <div>|</div>
-        use {"windwp/nvim-ts-autotag", event = "InsertEnter", disable = not O.plugin.ts_autotag.active}
+	-- Pretty parentheses
+	use({ "p00f/nvim-ts-rainbow", disable = not O.plugin.ts_rainbow.active })
 
-        -- Custom semantic text objects
-        use {"nvim-treesitter/nvim-treesitter-textobjects", disable = not O.plugin.ts_textobjects.active}
+	-- Autotags <div>|</div>
+	use({ "windwp/nvim-ts-autotag", event = "InsertEnter", disable = not O.plugin.ts_autotag.active })
 
-        -- Smart text objects
-        use {"RRethy/nvim-treesitter-textsubjects", disable = not O.plugin.ts_textsubjects.active}
+	-- Custom semantic text objects
+	use({ "nvim-treesitter/nvim-treesitter-textobjects", disable = not O.plugin.ts_textobjects.active })
 
-        -- Text objects using hint labels
-        use {"mfussenegger/nvim-ts-hint-textobject", event = "BufRead", disable = not O.plugin.ts_hintobjects.active}
-    end
-)
+	-- Smart text objects
+	use({ "RRethy/nvim-treesitter-textsubjects", disable = not O.plugin.ts_textsubjects.active })
+
+	-- Text objects using hint labels
+	use({ "mfussenegger/nvim-ts-hint-textobject", event = "BufRead", disable = not O.plugin.ts_hintobjects.active })
+end)

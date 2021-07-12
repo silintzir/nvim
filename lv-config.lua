@@ -2,7 +2,7 @@
 O.colorscheme = "tokyonight"
 O.format_on_save = true
 O.default_options.numberwidth = 2
-O.default_options.scrolloff = 8
+O.default_options.scrolloff = 4
 
 O.plugin.ts_playground.active = true
 O.plugin.ts_rainbow.active = true

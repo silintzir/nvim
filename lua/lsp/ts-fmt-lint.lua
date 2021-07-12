@@ -3,32 +3,44 @@
 local M = {}
 
 M.setup = function()
-    local prettier = {
-        formatCommand = "prettier --stdin-filepath ${INPUT}",
-        formatStdin = true
-    }
+	local tsserver_args = {}
+	if O.lang.tsserver.linter == "eslint" or O.lang.tsserver.linter == "eslint_d" then
+		local eslint = {
+			lintCommand = O.lang.tsserver.linter .. " -f unix --stdin --stdin-filename   {INPUT}",
+			lintStdin = true,
+			lintFormats = { "%f:%l:%c: %m" },
+			lintIgnoreExitCode = true,
+			formatCommand = O.lang.tsserver.linter .. " --fix-to-stdout --stdin  --stdin-filename=${INPUT}",
+			formatStdin = true,
+		}
+		table.insert(tsserver_args, eslint)
+	end
 
-    if vim.fn.glob("node_modules/.bin/prettier") ~= "" then
-        prettier = {
-            formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}",
-            formatStdin = true
-        }
-    end
-
-    require "lspconfig".efm.setup {
-        cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
-        init_options = {documentFormatting = true, codeAction = false},
-        filetypes = {"html", "css", "yaml", "javascript", "javascriptreact", "typescript", "typescriptreact"},
-        settings = {
-            rootMarkers = {".git/", "package.json"},
-            languages = {
-                html = {prettier},
-                css = {prettier},
-                json = {prettier},
-                yaml = {prettier}
-            }
-        }
-    }
+	require("lspconfig").efm.setup({
+		cmd = { DATA_PATH .. "/lspinstall/efm/efm-langserver" },
+		init_options = { documentFormatting = true, codeAction = false },
+		filetypes = {
+			"vue",
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
+			"javascript.jsx",
+			"typescript.tsx",
+		},
+		settings = {
+			rootMarkers = { ".git/", "package.json" },
+			languages = {
+				vue = tsserver_args,
+				javascript = tsserver_args,
+				javascriptreact = tsserver_args,
+				["javascript.jsx"] = tsserver_args,
+				typescript = tsserver_args,
+				["typescript.tsx"] = tsserver_args,
+				typescriptreact = tsserver_args,
+			},
+		},
+	})
 end
 
 return M
