@@ -6,9 +6,10 @@ USER = vim.fn.expand "$USER"
 
 O = {
     -- custom options
-    colorscheme = "tokyonight",
-    transparent_window = false,
     leader_key = " ",
+    colorscheme = "tokyonight",
+    line_wrap_cursor_movement = true,
+    transparent_window = false,
     format_on_save = false,
     vsnip_dir = CONFIG_PATH .. "/snippets",
     -- default options
@@ -92,55 +93,14 @@ O = {
     user_autocommands = {
         {"FileType", "qf", "set nobuflisted"}
     },
-    -- @usage pass a table with installed languages
-    treesitter = {
-        ensure_installed = {
-            "typescript",
-            "javascript",
-            "lua",
-            "html",
-            "css",
-            "php",
-            "yaml",
-            "json",
-            "graphql",
-            "jsonc",
-            "jsdoc",
-            "latex",
-            "bash"
-        },
-        ignore_install = {},
-        -- The below are for treesitter-textobjects plugin
-        highlight = {enabled = true},
-        textobj_prefixes = {
-            goto_next = "]", -- Go to next
-            goto_previous = "[", -- Go to previous
-            inner = "i", -- Select inside
-            outer = "a", -- Selct around
-            swap = "<leader>a" -- Swap with next
-        },
-        textobj_suffixes = {
-            -- Start and End respectively for the goto keys
-            -- for other keys it only uses the first
-            ["function"] = {"f", "F"},
-            ["class"] = {"m", "M"},
-            ["parameter"] = {"a", "A"},
-            ["block"] = {"k", "K"},
-            ["conditional"] = {"i", "I"},
-            ["call"] = {"c", "C"},
-            ["loop"] = {"l", "L"},
-            ["statement"] = {"s", "S"},
-            ["comment"] = {"/", "?"}
-        },
-        -- The below is for treesitter hint textobjects plugin
-        hint_labels = {"h", "j", "f", "d", "n", "v", "s", "l", "a"}
-    },
     lang = {
         css = {virtual_text = true},
         graphql = {},
         emmet = {active = true},
         html = {},
-        json = {diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}},
+        json = {
+            diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
+        },
         lua = {
             diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
         },

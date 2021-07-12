@@ -1,5 +1,19 @@
 O.treesitter = {
-    ensure_installed = {}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = {
+        "typescript",
+        "javascript",
+        "lua",
+        "html",
+        "css",
+        "php",
+        "yaml",
+        "json",
+        "graphql",
+        "jsonc",
+        "jsdoc",
+        "latex",
+        "bash"
+    },
     ignore_install = {},
     matchup = {
         enable = false -- mandatory, false will disable the whole extension
